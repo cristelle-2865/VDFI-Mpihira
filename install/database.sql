@@ -407,3 +407,175 @@ GROUP BY s.id_sortie, r.nom_eglise, l.nom_lieu, e.nom_etat;
 
 SELECT 'Base de donnees vdfi_mpihira creee avec succes!' AS status;
 
+
+
+
+
+
+-- =============================================
+-- INSERTIONS MANQUANTES
+-- =============================================
+
+-- 1. Insertion de chansons (table chanson)
+INSERT INTO chanson (titre, paroles, auteur, genre, date_creation, partition_pdf) VALUES
+('Fitiavana tsy mety maty', 'Paroles de la chanson...', 'RASOAMANANA Mbolatiana Toky', 'Gospel', '2024-01-15', '/partitions/fitiavana.pdf'),
+('Masoandro velona', 'Paroles de la chanson...', 'RASOAMANANA Mbolatiana Toky', 'Adoration', '2024-02-20', '/partitions/masoandro.pdf'),
+('Voninahitra ho Anao', 'Paroles de la chanson...', 'ANDRIAMANJATO Lahatriniavo', 'Louange', '2024-03-10', '/partitions/voninahitra.pdf'),
+('Fiderana mandrakizay', 'Paroles de la chanson...', 'RASOAMANANA Mbolatiana Toky', 'Gospel', '2024-04-05', '/partitions/fiderana.pdf'),
+('Ny finoako', 'Paroles de la chanson...', 'ANDRIAMANJATO Lahatriniavo', 'Adoration', '2024-05-12', '/partitions/finoako.pdf');
+
+-- 2. Insertion de media_chanson
+INSERT INTO media_chanson (id_chanson, type_media, fichier_path, fichier_nom_original, taille_fichier, format_fichier, duree, description) VALUES
+(1, 'audio', '/audios/fitiavana.mp3', 'fitiavana_tsisy_metty_maty.mp3', 5242880, 'mp3', '00:04:30', 'Version studio'),
+(1, 'playback', '/playbacks/fitiavana_playback.mp3', 'fitiavana_playback.mp3', 5242880, 'mp3', '00:04:30', 'Playback pour répétition'),
+(2, 'audio', '/audios/masoandro.mp3', 'masoandro_velona.mp3', 3670016, 'mp3', '00:03:45', 'Version live'),
+(3, 'partition_pdf', '/partitions/voninahitra_scores.pdf', 'voninahitra_scores.pdf', 1048576, 'pdf', NULL, 'Partition complète'),
+(4, 'video_clip', '/videos/fiderana.mp4', 'fiderana_clip.mp4', 52428800, 'mp4', '00:05:00', 'Clip vidéo officiel');
+
+-- 3. Insertion de repertoire_chanson (liaison répertoire - chansons)
+INSERT INTO repertoire_chanson (id_repertoire, id_chanson, ordre_chanson) VALUES
+(1, 1, 1),
+(1, 2, 2),
+(1, 3, 3),
+(2, 1, 1),
+(2, 4, 2),
+(2, 5, 3),
+(3, 2, 1),
+(3, 3, 2),
+(3, 5, 3);
+
+-- 4. Insertion de réservations
+INSERT INTO reservation (id_utilisateur, nom_eglise, adresse_eglise, contact, email_contact, date_evenement, periode_journee, description_reservation, sono_complet, id_statut, id_lieu) VALUES
+(2, 'FJKM Ambatonakanga', 'Ambatonakanga, Antananarivo', '0341234567', 'contact@ambatonakanga.mg', '2025-07-06', 'matin', 'Culte dominical avec chorale', true, 2, 11),
+(2, 'FPVM Alarobia', 'Ambatomanga, Madagascar', '0342345678', 'secretariat@fpvm-alarobia.mg', '2025-07-12', 'apres-midi', 'Conférence évangélique', false, 2, 12),
+(2, 'METM Ambohidahy', 'Ankadidramamy, Antananarivo', '0343456789', 'contact@metm.mg', '2025-07-20', 'toute-la-journee', 'Fête de la musique', true, 1, 13),
+(2, 'Astauriat Antanimena', 'Antanimena, Antananarivo', '0344567890', 'info@astauriat.mg', '2025-07-27', 'soir', 'Concert de gospel', true, 2, 14);
+
+-- 5. Insertion de sorties
+INSERT INTO sortie (id_reservation, id_lieu, id_etat, id_photo, date_sortie, description) VALUES
+(1, 11, 2, 12, '2025-07-06 08:00:00', 'Sortie à FJKM Ambatonakanga pour le culte dominical'),
+(2, 12, 2, 13, '2025-07-12 14:00:00', 'Sortie à FPVM Alarobia pour la conférence'),
+(3, 13, 1, 14, '2025-07-20 09:00:00', 'Sortie à METM Ambohidahy - en préparation'),
+(4, 14, 2, 15, '2025-07-27 18:00:00', 'Sortie à Astauriat pour le concert');
+
+-- 6. Insertion de sortie_membres (participation des membres aux sorties)
+INSERT INTO sortie_membres (id_sortie, id_membre, role_dans_sortie) VALUES
+(1, 4, 'Chef de chœur'),
+(1, 6, 'Chanteuse 1ere voix'),
+(1, 7, 'Chanteuse 1ere voix'),
+(1, 10, 'Chanteuse 2eme voix'),
+(1, 12, 'Chanteur 3eme voix'),
+(1, 15, 'Claviériste'),
+(1, 17, 'Guitariste'),
+(2, 4, 'Chef de chœur'),
+(2, 8, 'Chanteuse 1ere voix'),
+(2, 9, 'Chanteuse 1ere/2eme voix'),
+(2, 13, 'Chanteur 3eme voix'),
+(2, 16, 'Claviériste'),
+(2, 18, 'Bassiste'),
+(3, 4, 'Chef de chœur'),
+(3, 6, 'Chanteuse 1ere voix'),
+(3, 10, 'Chanteuse 2eme voix'),
+(3, 14, 'Chanteur 3eme voix'),
+(3, 15, 'Claviériste'),
+(3, 19, 'Batteur'),
+(4, 4, 'Chef de chœur'),
+(4, 7, 'Chanteuse 1ere voix'),
+(4, 9, 'Chanteuse 1ere/2eme voix'),
+(4, 12, 'Chanteur 3eme voix'),
+(4, 16, 'Claviériste'),
+(4, 20, 'Violiniste');
+
+-- 7. Insertion de sortie_etat (historique des états des sorties)
+INSERT INTO sortie_etat (id_sortie, id_etat, date_changement) VALUES
+(1, 1, '2025-06-20 10:00:00'),
+(1, 2, '2025-06-25 14:30:00'),
+(2, 1, '2025-06-22 09:00:00'),
+(2, 2, '2025-06-28 11:15:00'),
+(3, 1, '2025-06-30 08:00:00'),
+(4, 1, '2025-06-25 13:00:00'),
+(4, 2, '2025-07-01 16:45:00');
+
+-- 8. Insertion de sortie_repertoire
+INSERT INTO sortie_repertoire (id_sortie, id_repertoire, date_utilisation) VALUES
+(1, 11, '2025-07-06'),
+(2, 12, '2025-07-12'),
+(3, 13, '2025-07-20'),
+(4, 14, '2025-07-27');
+
+-- 9. Insertion de media_archive
+INSERT INTO media_archive (id_sortie, type_media, fichier_path, fichier_nom_original, taille_fichier, format_fichier, description, ordre_affichage) VALUES
+(1, 'photo', '/archives/sortie1/photo1.jpg', 'ambatonakanga_culte.jpg', 2097152, 'jpg', 'Photo du culte à Ambatonakanga', 1),
+(1, 'video', '/archives/sortie1/video1.mp4', 'performance_chorale.mp4', 104857600, 'mp4', 'Vidéo de la performance', 2),
+(2, 'affiche', '/archives/sortie2/affiche.pdf', 'affiche_conference.pdf', 524288, 'pdf', 'Affiche de la conférence', 1),
+(4, 'photo', '/archives/sortie4/concert1.jpg', 'concert_astauriat.jpg', 3145728, 'jpg', 'Concert à Astauriat', 1);
+
+-- 10. Insertion de photo_sortie
+INSERT INTO photo_sortie (id_sortie, id_photo, date_sortie) VALUES
+(1, 12, '2025-07-06'),
+(2, 13, '2025-07-12'),
+(3, 14, '2025-07-20'),
+(4, 15, '2025-07-27');
+
+-- 11. Insertion de notifications
+INSERT INTO notification (id_reservation, id_sortie, destinataire, message, type_notification, envoye) VALUES
+(1, 1, 'contact@ambatonakanga.mg', 'Votre réservation pour le 2025-07-06 a été confirmée', 'confirmation', true),
+(2, 2, 'secretariat@fpvm-alarobia.mg', 'La sortie du 2025-07-12 est planifiée', 'planification', true),
+(4, 4, 'info@astauriat.mg', 'Rappel: Concert prévu le 2025-07-27', 'rappel', false),
+(3, 3, 'contact@metm.mg', 'Votre réservation est en cours de validation', 'validation', true);
+
+-- 12. Insertion de notification_statut
+INSERT INTO notification_statut (id_notification, id_statut_envoi, date_changement) VALUES
+(1, 2, '2025-06-25 15:00:00'),
+(2, 2, '2025-06-28 11:30:00'),
+(3, 1, '2025-07-01 09:00:00'),
+(4, 2, '2025-06-30 14:20:00');
+
+-- 13. Insertion de publication_facebook
+INSERT INTO publication_facebook (id_sortie, message_poste, url_media, date_publication, statut, id_post_facebook) VALUES
+(1, 'Venez nombreux au culte à FJKM Ambatonakanga ce dimanche avec la chorale VDFI Mpihira !', '/images/ambatonakanga_promo.jpg', '2025-07-05 08:00:00', 'publie', 'fb_post_123456'),
+(2, 'Conférence évangélique à FPVM Alarobia - Entrée libre', '/images/alarobia_promo.jpg', '2025-07-11 10:00:00', 'publie', 'fb_post_123457'),
+(4, 'Concert de gospel ce soir à Astauriat Antanimena !', '/images/astauriat_promo.jpg', '2025-07-27 12:00:00', 'programme', NULL);
+
+-- 14. Mise à jour des statuts de réservation
+INSERT INTO reservation_statut (id_reservation, id_statut, date_changement) VALUES
+(1, 1, '2025-06-15 09:00:00'),
+(1, 2, '2025-06-20 14:00:00'),
+(2, 1, '2025-06-18 10:30:00'),
+(2, 2, '2025-06-22 16:00:00'),
+(3, 1, '2025-06-25 11:00:00'),
+(4, 1, '2025-06-20 08:00:00'),
+(4, 2, '2025-06-28 15:30:00');
+
+-- 15. Insertion de quelques chansons supplémentaires avec différents genres
+INSERT INTO chanson (titre, paroles, auteur, genre, date_creation) VALUES
+('Miandry Anao aho', 'Paroles...', 'RASOAMANANA Mbolatiana Toky', 'Adoration', '2024-06-01'),
+('Hoby Anao ry Jesosy', 'Paroles...', 'ANDRIAMANJATO Lahatriniavo', 'Louange', '2024-07-15'),
+('Famindrana tsy manam-petra', 'Paroles...', 'RASOAMANANA Mbolatiana Toky', 'Gospel', '2024-08-20'),
+('Ny lalanao', 'Paroles...', 'ANDRIAMANJATO Lahatriniavo', 'Adoration', '2024-09-10');
+
+-- 16. Association des nouvelles chansons aux répertoires
+INSERT INTO repertoire_chanson (id_repertoire, id_chanson, ordre_chanson) VALUES
+(11, 6, 1),
+(11, 7, 2),
+(12, 6, 1),
+(12, 8, 2),
+(13, 7, 1),
+(13, 9, 2),
+(14, 8, 1),
+(14, 9, 2);
+
+-- 17. Insertion de médias pour les nouvelles chansons
+INSERT INTO media_chanson (id_chanson, type_media, fichier_path, format_fichier, duree, description) VALUES
+(6, 'audio', '/audios/miandry.mp3', 'mp3', '00:04:15', 'Version studio'),
+(7, 'audio', '/audios/hoby.mp3', 'mp3', '00:03:55', 'Version live'),
+(8, 'lyrics', '/lyrics/famindrana.txt', 'txt', NULL, 'Paroles complètes'),
+(9, 'playback', '/playbacks/lalanao.mp3', 'mp3', '00:04:00', 'Playback instrumental');
+
+-- Vérification finale
+SELECT 'Toutes les insertions ont été effectuées avec succès !' AS status;
+SELECT COUNT(*) AS total_chansons FROM chanson;
+SELECT COUNT(*) AS total_sorties FROM sortie;
+SELECT COUNT(*) AS total_reservations FROM reservation;
+
+

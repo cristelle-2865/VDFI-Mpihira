@@ -1,0 +1,10 @@
+C'est un système de gestion d'agenda et de concerts pour ce qui semble être un groupe de chant chrétien malgache (mpihira = chanteur en malgache). Elle gère :
+    - Les membres du groupe (chanteurs, musiciens, responsables…)
+    - Les chansons avec paroles, partitions PDF, playbacks, clips vidéo
+    - Les sorties (concerts/prestations dans des églises : FJKM, FPVM, METM, FLM…)
+    - Les réservations faites par des églises
+    - Les répertoires préparés pour chaque sortie
+    - Les médias (photos, vidéos, affiches de chaque événement)
+    - Les notifications et publications Facebook
+
+

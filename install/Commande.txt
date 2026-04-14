@@ -1,0 +1,8 @@
+front :
+    - npm create vite@3.2.0 front-vdfi-mpihira -- --template vue {pour la création du front}
+    - npm install
+    - npm run dev
+
+back : 
+    - mvn spring-boot:run
+

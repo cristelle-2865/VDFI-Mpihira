@@ -356,3 +356,116 @@
 }
 
 
+
+/* Styles spécifiques pour FullCalendar */
+.sorties-page :deep(.fc) {
+  --fc-border-color: var(--color-border);
+  --fc-button-bg-color: var(--color-background-alt);
+  --fc-button-border-color: var(--color-border);
+  --fc-button-hover-bg-color: var(--color-surface);
+  --fc-button-active-bg-color: var(--color-accent);
+  --fc-today-bg-color: rgba(173, 117, 86, 0.1);
+  --fc-event-bg-color: var(--color-accent);
+  --fc-event-border-color: var(--color-accent-dark);
+  font-family: var(--font-family-lexend);
+}
+
+.sorties-page :deep(.fc-toolbar-title) {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.sorties-page :deep(.fc-button) {
+  border-radius: var(--radius-xl);
+  padding: 0.4rem 1rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: capitalize;
+  background-color: var(--color-background-alt);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.sorties-page :deep(.fc-button:hover) {
+  background-color: var(--color-surface);
+  border-color: var(--color-accent);
+  color: var(--color-accent-dark);
+}
+
+.sorties-page :deep(.fc-button-primary:not(:disabled):active),
+.sorties-page :deep(.fc-button-primary:not(:disabled).fc-button-active) {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: var(--color-text-light);
+}
+
+.sorties-page :deep(.fc-day-today) {
+  background: rgba(173, 117, 86, 0.08);
+}
+
+.sorties-page :deep(.fc-event) {
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  padding: 2px 4px;
+  transition: transform var(--transition-fast);
+}
+
+.sorties-page :deep(.fc-event:hover) {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.sorties-page :deep(.event-confirmed) {
+  background: linear-gradient(135deg, var(--color-success), var(--color-green-dark));
+  border-color: var(--color-success);
+}
+
+.sorties-page :deep(.event-planned) {
+  background: linear-gradient(135deg, var(--color-warning), var(--color-accent-light));
+  border-color: var(--color-warning);
+}
+
+.sorties-page :deep(.event-completed) {
+  background: linear-gradient(135deg, var(--color-info), var(--color-tertiary));
+  border-color: var(--color-info);
+}
+
+.sorties-page :deep(.fc-daygrid-day-frame) {
+  cursor: pointer;
+}
+
+.sorties-page :deep(.fc-daygrid-day-frame:hover) {
+  background: rgba(173, 117, 86, 0.05);
+}
+
+.sorties-page :deep(.fc-event-custom) {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+}
+
+.sorties-page :deep(.fc-event-custom small) {
+  font-size: 0.65rem;
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .sorties-page :deep(.fc-toolbar) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .sorties-page :deep(.fc-toolbar-chunk) {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .sorties-page :deep(.fc-event-custom strong) {
+    font-size: 0.7rem;
+  }
+  
+  .sorties-page :deep(.fc-event-custom small) {
+    display: none;
+  }
+}
+

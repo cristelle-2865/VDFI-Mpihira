@@ -1,0 +1,313 @@
+/* membres.css - Version avec les couleurs VDFI Warm Luxe 2026 */
+
+.membres-page {
+  animation: fadeInUp var(--transition-slow);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  font-size: var(--font-size-h2);
+  margin-bottom: 1rem;
+  color: var(--color-text-primary);
+}
+
+.page-header h1 i {
+  color: var(--color-accent);
+  margin-right: 1rem;
+}
+
+.page-header p {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-p1);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  padding: 0.6rem 1.2rem;
+  background: var(--color-background-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: var(--font-size-p2);
+  font-weight: var(--font-weight-medium);
+}
+
+.filter-btn i {
+  margin-right: 8px;
+}
+
+.filter-btn:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  color: var(--color-accent-dark);
+}
+
+.filter-btn.active {
+  background: var(--gradient-primary);
+  color: var(--color-text-light);
+  border-color: transparent;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.stat-box {
+  background: var(--color-background-light);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.stat-box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent-light);
+}
+
+.stat-box i {
+  font-size: 2rem;
+  color: var(--color-accent);
+}
+
+.stat-box .stat-number {
+  font-size: 1.8rem;
+  font-weight: var(--font-weight-extrabold);
+  display: block;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.stat-box .stat-label {
+  font-size: var(--font-size-p2);
+  color: var(--color-text-muted);
+}
+
+.membres-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.membre-card {
+  background: var(--color-background-light);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.membre-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-lg);
+}
+
+.membre-photo {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  background: var(--color-background-alt);
+}
+
+.membre-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-fast);
+}
+
+.membre-card:hover .membre-photo img {
+  transform: scale(1.05);
+}
+
+/* Fallback pour les membres sans photo */
+.membre-photo .photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  color: var(--color-accent);
+  font-size: 4rem;
+}
+
+.categorie-badge {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-xl);
+  font-size: var(--font-size-p4);
+  font-weight: var(--font-weight-semibold);
+  backdrop-filter: blur(5px);
+}
+
+/* Badges de catégorie - Palette VDFI */
+.badge-purple {
+  background: var(--color-secondary);
+  color: var(--color-text-light);
+}
+
+.badge-blue {
+  background: var(--color-cool);
+  color: var(--color-text-light);
+}
+
+.badge-green {
+  background: var(--color-green);
+  color: var(--color-text-primary);
+}
+
+.badge-pink {
+  background: var(--color-secondary-light);
+  color: var(--color-text-light);
+}
+
+.badge-orange {
+  background: var(--color-accent);
+  color: var(--color-text-light);
+}
+
+.badge-gray {
+  background: var(--color-tertiary);
+  color: var(--color-text-light);
+}
+
+.membre-info {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.membre-info h3 {
+  margin-bottom: 0.5rem;
+  font-size: var(--font-size-h4);
+  color: var(--color-text-primary);
+}
+
+.membre-info .role {
+  color: var(--color-accent);
+  font-size: var(--font-size-p2);
+  margin-bottom: 1rem;
+  font-weight: var(--font-weight-medium);
+}
+
+.membre-info .bio {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-p2);
+  line-height: var(--line-height-loose);
+  margin-bottom: 1rem;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-icons a {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border-radius: 50%;
+  color: var(--color-accent);
+  transition: all var(--transition-fast);
+}
+
+.social-icons a:hover {
+  background: var(--color-accent);
+  color: var(--color-text-light);
+  transform: translateY(-3px);
+}
+
+/* Empty state */
+.no-membres {
+  text-align: center;
+  padding: 3rem;
+  background: var(--color-background-light);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.no-membres i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--color-accent-light);
+}
+
+/* Loading state */
+.loading-spinner {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  .page-header h1 {
+    font-size: var(--font-size-h3);
+  }
+  
+  .filters {
+    gap: 0.5rem;
+  }
+  
+  .filter-btn {
+    padding: 0.4rem 1rem;
+    font-size: var(--font-size-p3);
+  }
+  
+  .stats-row {
+    gap: 1rem;
+  }
+  
+  .stat-box {
+    padding: 0.8rem 1.2rem;
+  }
+  
+  .stat-box i {
+    font-size: 1.5rem;
+  }
+  
+  .stat-box .stat-number {
+    font-size: 1.4rem;
+  }
+  
+  .membres-grid {
+    gap: 1rem;
+  }
+  
+  .membre-photo {
+    height: 240px;
+  }
+}
+

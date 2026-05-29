@@ -1,0 +1,222 @@
+/* variables.css - VDFI Warm Luxe 2026 Design System */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+/* =============================================
+   TYPOGRAPHIE
+   ============================================= */
+:root {
+  /* Polices */
+  --font-family-lexend: 'Lexend', 'LexendDeca-Regular', sans-serif;
+  
+  /* Poids de police */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* Styles italiques */
+  --font-style-italic: italic;
+  --font-style-normal: normal;
+  
+  /* Tailles de police */
+  --font-size-h1: 40px;
+  --font-size-h2: 33px;
+  --font-size-h3: 25px;
+  --font-size-h4: 20px;
+  --font-size-p1: 16px;
+  --font-size-p2: 13px;
+  --font-size-p3: 12px;
+  --font-size-p4: 12px;
+  --font-size-p5: 10px;
+  --font-size-p6: 8px;
+  --font-size-28: 28px;
+  
+  /* Line heights */
+  --line-height-base: 1.5;
+  --line-height-tight: 1.3;
+  --line-height-loose: 1.7;
+  
+  /* =============================================
+     COULEURS – CHARTE GRAPHIQUE VDFI
+     ============================================= */
+  
+  /* Logo Colors (Core Palette) */
+  --color-logo-dark: #1D1D1D;
+  --color-logo-burgundy: #731613;
+  --color-logo-red: #E01F34;
+  --color-logo-orange: #E37C11;
+  --color-logo-yellow: #E1DC49;
+  --color-logo-light: #F5F4F5;
+  
+  /* Page UI Colors */
+  --color-ui-dark-burgundy: #360e13;
+  --color-ui-deep-red: #52130C;
+  --color-ui-warm-brown: #603A30;
+  --color-ui-muted-brown: #8D695D;
+  --color-ui-light-beige: #C4BAB3;
+  --color-ui-offwhite: #F5F4F5;
+  
+  /* Primary (Logo Colors) */
+  --color-primary: #1D1D1D;
+  --color-second-prim: #731613;
+  --color-primary-light: #F5F4F5;
+  --color-primary-dark: #1D1D1D;
+  
+  /* Accents (Logo Colors) */
+  --color-accent: #E01F34;
+  --color-accent-light: #E37C11;
+  --color-accent-dark: #731613;
+  
+  --color-secondary: #E37C11;
+  --color-secondary-light: #E1DC49;
+  --color-secondary-dark: #731613;
+  --color-secondary-black: #1D1D1D;
+  
+  --color-tertiary: #8D695D;
+  --color-tertiary-light: #C4BAB3;
+  --color-tertiary-dark: #603A30;
+  
+  /* Cool Accent */
+  --color-cool: #C4BAB3;
+  --color-cool-light: #F5F4F5;
+  
+  --color-green: #E1DC49;
+  --color-green-light: #F5F4F5;
+  --color-green-dark: #E37C11;
+  
+  /* Neutrals (Page UI) */
+  --color-background: #F5F4F5;
+  --color-background-light: #FFFFFF;
+  --color-background-alt: #C4BAB3;
+  --color-background-dark: #360e13;
+  --color-white: #F5F4F5;
+  --color-black: #1D1D1D;
+  
+  --color-text-primary: #1D1D1D;
+  --color-text-secondary: #603A30;
+  --color-text-muted: #8D695D;
+  --color-text-light: #F5F4F5;
+  
+  /* Interface & States */
+  --color-border: rgba(115, 22, 19, 0.35);
+  --color-border-dark: rgba(29, 29, 29, 0.25);
+  --color-surface: rgba(115, 22, 19, 0.12);
+  --color-surface-hover: rgba(227, 31, 52, 0.15);
+  
+  --color-success: #E1DC49;
+  --color-warning: #E37C11;
+  --color-error: #E01F34;
+  --color-info: #C4BAB3;
+  
+  /* Shadows */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 15px;
+  --radius-lg: 20px;
+  --radius-xl: 50px;
+  
+  /* Transitions */
+  --transition-fast: 0.3s ease;
+  --transition-slow: 0.6s ease;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, #731613, #E01F34);
+  --gradient-text: linear-gradient(135deg, #E37C11, #E01F34);
+}
+
+/* Police personnalisée Lexend */
+@font-face {
+  font-family: 'Lexend';
+  src: url('../fonts/LexendDeca-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  src: url('../fonts/LexendDeca-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  src: url('../fonts/LexendDeca-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  src: url('../fonts/LexendDeca-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  src: url('../fonts/LexendDeca-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  src: url('../fonts/LexendDeca-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+/* Application des polices par défaut */
+body {
+  font-family: var(--font-family-lexend);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  line-height: var(--line-height-base);
+  margin: 0;
+  padding: 0;
+}
+
+/* Application des tailles de titre */
+h1 {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+h2 {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+h3 {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+h4 {
+  font-size: var(--font-size-h4);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+}
+
+p {
+  font-size: var(--font-size-p1);
+  line-height: var(--line-height-base);
+  color: var(--color-text-secondary);
+}
+
+/* S'assurer que tous les éléments utilisent les bonnes couleurs */
+* {
+  box-sizing: border-box;
+}
+

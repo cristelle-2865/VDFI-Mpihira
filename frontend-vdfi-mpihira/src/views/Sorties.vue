@@ -18,8 +18,13 @@
       </button>
     </div>
 
+    <!-- Chargement -->
+    <div v-if="loading" class="loading-spinner">
+      <i class="fas fa-spinner fa-pulse"></i> Chargement...
+    </div>
+
     <!-- Vue Liste -->
-    <div v-if="viewMode === 'list'" class="sorties-list">
+    <div v-else-if="viewMode === 'list'" class="sorties-list">
       <div v-for="sortie in sorties" :key="sortie.id_sortie" class="sortie-card">
         <div class="sortie-date">
           <div class="date-day">{{ formatDate(sortie.date_sortie, 'day') }}</div>
@@ -32,7 +37,7 @@
           <p v-if="sortie.description" class="description">{{ sortie.description }}</p>
         </div>
         <div class="sortie-status">
-          <span class="badge" :class="getStatusClass(sortie.nom_etat)">
+          <span class="status-badge" :class="getStatusClass(sortie.nom_etat)">
             {{ sortie.nom_etat }}
           </span>
           <button class="detail-btn" @click="voirDetail(sortie)">
@@ -43,11 +48,17 @@
     </div>
 
     <!-- Vue Calendrier -->
-    <div v-if="viewMode === 'calendar'" class="calendar-view">
-      <FullCalendar 
-        :events="calendarEvents" 
+    <div v-else-if="viewMode === 'calendar'" class="calendar-view">
+      <FullCalendar
         :options="calendarOptions"
-      />
+      >
+        <template v-slot:eventContent="arg">
+          <div class="fc-event-custom">
+            <strong>{{ arg.event.title }}</strong>
+            <small>{{ arg.event.extendedProps.lieu || '' }}</small>
+          </div>
+        </template>
+      </FullCalendar>
     </div>
 
     <!-- Modal Détails -->
@@ -69,7 +80,7 @@
             </div>
             <div class="detail-item">
               <label><i class="fas fa-tag"></i> Statut</label>
-              <span class="badge" :class="getStatusClass(selectedSortie.nom_etat)">{{ selectedSortie.nom_etat }}</span>
+              <span class="status-badge" :class="getStatusClass(selectedSortie.nom_etat)">{{ selectedSortie.nom_etat }}</span>
             </div>
             <div class="detail-item full-width">
               <label><i class="fas fa-users"></i> Membres participants</label>
@@ -90,24 +101,32 @@
 
 <script>
 import axios from 'axios'
+import FullCalendar from '@fullcalendar/vue3'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import frLocale from '@fullcalendar/core/locales/fr'
 
 export default {
   name: 'Sorties',
+  components: {
+    FullCalendar
+  },
   data() {
     return {
       sorties: [],
       loading: true,
       viewMode: 'list',
       detailModal: false,
-      selectedSortie: null,
-      calendarEvents: []
+      selectedSortie: null
     }
   },
   computed: {
     calendarOptions() {
       return {
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
         initialView: 'dayGridMonth',
-        locale: 'fr',
+        locale: frLocale,
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
@@ -117,8 +136,28 @@ export default {
           today: 'Aujourd\'hui',
           month: 'Mois',
           week: 'Semaine'
-        }
+        },
+        events: this.calendarEvents,
+        eventClick: this.handleEventClick,
+        height: 'auto',
+        firstDay: 1,
+        weekends: true,
+        nowIndicator: true
       }
+    },
+    calendarEvents() {
+      return this.sorties.map(sortie => ({
+        id: sortie.id_sortie,
+        title: sortie.nom_eglise,
+        start: sortie.date_sortie,
+        extendedProps: {
+          sortie: sortie,
+          lieu: sortie.nom_lieu,
+          statut: sortie.nom_etat,
+          description: sortie.description
+        },
+        className: `event-${this.getStatusClass(sortie.nom_etat).replace('status-', '')}`
+      }))
     }
   },
   mounted() {
@@ -129,26 +168,17 @@ export default {
       try {
         const response = await axios.get('/api/sorties')
         this.sorties = response.data
-        this.calendarEvents = this.sorties.map(s => ({
-          id: s.id_sortie,
-          title: s.nom_eglise,
-          start: s.date_sortie,
-          extendedProps: { sortie: s }
-        }))
       } catch (error) {
-        console.error('Erreur:', error)
+        console.error('Erreur API:', error)
+        // Données mockées pour la démo
         this.sorties = [
           { id_sortie: 1, date_sortie: '2025-07-06 08:00:00', nom_eglise: 'FJKM Ambatonakanga', nom_lieu: 'Ambatonakanga', nom_etat: 'Confirmée', description: 'Culte dominical avec la chorale', membres: ['Fandresena', 'Zo', 'Oniniaina', 'Nathalie', 'Famenontsoa', 'Raphael', 'Aina'] },
           { id_sortie: 2, date_sortie: '2025-07-12 14:00:00', nom_eglise: 'FPVM Alarobia', nom_lieu: 'Ambatomanga', nom_etat: 'Confirmée', description: 'Conférence évangélique', membres: ['Fandresena', 'Tantanantsoa', 'Tsirava', 'Fifaliana', 'Erick', 'Toavina'] },
           { id_sortie: 3, date_sortie: '2025-07-20 09:00:00', nom_eglise: 'METM Ambohidahy', nom_lieu: 'Ankadidramamy', nom_etat: 'Planifiée', description: 'Fête de la musique', membres: ['Fandresena', 'Zo', 'Nathalie', 'Tiavo', 'Raphael', 'Toky'] },
-          { id_sortie: 4, date_sortie: '2025-07-27 18:00:00', nom_eglise: 'Astauriat Antanimena', nom_lieu: 'Antanimena', nom_etat: 'Confirmée', description: 'Concert de gospel', membres: ['Fandresena', 'Oniniaina', 'Tsirava', 'Famenontsoa', 'Erick', 'Mitia'] }
+          { id_sortie: 4, date_sortie: '2025-07-27 18:00:00', nom_eglise: 'Astauriat Antanimena', nom_lieu: 'Antanimena', nom_etat: 'Confirmée', description: 'Concert de gospel', membres: ['Fandresena', 'Oniniaina', 'Tsirava', 'Famenontsoa', 'Erick', 'Mitia'] },
+          { id_sortie: 5, date_sortie: '2025-08-03 10:00:00', nom_eglise: 'FLM Andohalo', nom_lieu: 'Andohalo', nom_etat: 'Planifiée', description: 'Culte spécial chant choral', membres: ['Fandresena', 'Nathalie', 'Raphael', 'Toavina', 'Mitia'] },
+          { id_sortie: 6, date_sortie: '2025-08-15 15:30:00', nom_eglise: 'FJKM Ambohipotsy', nom_lieu: 'Ambohipotsy', nom_etat: 'Confirmée', description: 'Concert anniversaire', membres: ['Fandresena', 'Zo', 'Oniniaina', 'Tsirava', 'Fifaliana', 'Erick', 'Aina', 'Toky'] }
         ]
-        this.calendarEvents = this.sorties.map(s => ({
-          id: s.id_sortie,
-          title: s.nom_eglise,
-          start: s.date_sortie,
-          extendedProps: { sortie: s }
-        }))
       } finally {
         this.loading = false
       }
@@ -163,13 +193,13 @@ export default {
     },
     getStatusClass(etat) {
       const classes = {
-        'Confirmée': 'badge-success',
-        'Planifiée': 'badge-info',
-        'Terminée': 'badge-info',
-        'Annulée': 'badge-danger',
-        'En cours': 'badge-warning'
+        'Confirmée': 'status-confirmed',
+        'Planifiée': 'status-planned',
+        'Terminée': 'status-completed',
+        'Annulée': 'status-cancelled',
+        'En cours': 'status-planned'
       }
-      return classes[etat] || 'badge-warning'
+      return classes[etat] || 'status-planned'
     },
     voirDetail(sortie) {
       this.selectedSortie = sortie
@@ -178,191 +208,129 @@ export default {
     closeDetail() {
       this.detailModal = false
       this.selectedSortie = null
+    },
+    handleEventClick(info) {
+      const sortie = info.event.extendedProps.sortie
+      this.voirDetail(sortie)
     }
   }
 }
 </script>
 
 <style scoped>
-.sorties-page {
-  animation: fadeInUp 0.6s ease;
+@import '../assets/css/views/sorties.css';
+
+/* Styles spécifiques pour FullCalendar */
+.sorties-page :deep(.fc) {
+  --fc-border-color: var(--color-border);
+  --fc-button-bg-color: var(--color-background-alt);
+  --fc-button-border-color: var(--color-border);
+  --fc-button-hover-bg-color: var(--color-surface);
+  --fc-button-active-bg-color: var(--color-accent);
+  --fc-today-bg-color: rgba(173, 117, 86, 0.1);
+  --fc-event-bg-color: var(--color-accent);
+  --fc-event-border-color: var(--color-accent-dark);
+  font-family: var(--font-family-lexend);
 }
 
-.view-toggle {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+.sorties-page :deep(.fc-toolbar-title) {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
-.toggle-btn {
-  padding: 0.6rem 1.5rem;
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 50px;
-  color: #cbd5e1;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.sorties-page :deep(.fc-button) {
+  border-radius: var(--radius-xl);
+  padding: 0.4rem 1rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: capitalize;
+  background-color: var(--color-background-alt);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
 }
 
-.toggle-btn i {
-  margin-right: 8px;
+.sorties-page :deep(.fc-button:hover) {
+  background-color: var(--color-surface);
+  border-color: var(--color-accent);
+  color: var(--color-accent-dark);
 }
 
-.toggle-btn.active {
-  background: linear-gradient(135deg, #8b5cf6, #ec4899);
-  color: white;
+.sorties-page :deep(.fc-button-primary:not(:disabled):active),
+.sorties-page :deep(.fc-button-primary:not(:disabled).fc-button-active) {
+  background: var(--gradient-primary);
   border-color: transparent;
+  color: var(--color-text-light);
 }
 
-.sorties-list {
+.sorties-page :deep(.fc-day-today) {
+  background: rgba(173, 117, 86, 0.08);
+}
+
+.sorties-page :deep(.fc-event) {
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  padding: 2px 4px;
+  transition: transform var(--transition-fast);
+}
+
+.sorties-page :deep(.fc-event:hover) {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.sorties-page :deep(.event-confirmed) {
+  background: linear-gradient(135deg, var(--color-success), var(--color-green-dark));
+  border-color: var(--color-success);
+}
+
+.sorties-page :deep(.event-planned) {
+  background: linear-gradient(135deg, var(--color-warning), var(--color-accent-light));
+  border-color: var(--color-warning);
+}
+
+.sorties-page :deep(.event-completed) {
+  background: linear-gradient(135deg, var(--color-info), var(--color-tertiary));
+  border-color: var(--color-info);
+}
+
+.sorties-page :deep(.fc-daygrid-day-frame) {
+  cursor: pointer;
+}
+
+.sorties-page :deep(.fc-daygrid-day-frame:hover) {
+  background: rgba(173, 117, 86, 0.05);
+}
+
+.sorties-page :deep(.fc-event-custom) {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.sortie-card {
-  background: rgba(30, 41, 59, 0.6);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  transition: all 0.3s ease;
-}
-
-.sortie-card:hover {
-  transform: translateX(10px);
-  border-color: #8b5cf6;
-}
-
-.sortie-date {
-  text-align: center;
-  min-width: 80px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.15));
-  border-radius: 15px;
-  padding: 1rem;
-}
-
-.date-day {
-  font-size: 2rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.date-month {
   font-size: 0.75rem;
-  color: #8b5cf6;
 }
 
-.sortie-info {
-  flex: 1;
-}
-
-.sortie-info h3 {
-  margin-bottom: 0.5rem;
-}
-
-.sortie-info p {
-  color: #94a3b8;
-  margin: 0.25rem 0;
-}
-
-.sortie-info p i {
-  width: 20px;
-  color: #8b5cf6;
-}
-
-.sortie-info .description {
-  margin-top: 0.5rem;
-  font-size: 0.875rem;
-  font-style: italic;
-}
-
-.sortie-status {
-  text-align: center;
-  min-width: 120px;
-}
-
-.detail-btn {
-  margin-top: 0.5rem;
-  padding: 0.4rem 1rem;
-  background: none;
-  border: 1px solid #8b5cf6;
-  border-radius: 50px;
-  color: #8b5cf6;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.detail-btn:hover {
-  background: #8b5cf6;
-  color: white;
-}
-
-.modal-large {
-  width: 90%;
-  max-width: 700px;
-}
-
-.detail-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-
-.detail-item {
-  margin-bottom: 1rem;
-}
-
-.detail-item label {
-  display: block;
-  font-size: 0.75rem;
-  color: #8b5cf6;
-  margin-bottom: 0.25rem;
-}
-
-.detail-item p {
-  color: #cbd5e1;
-}
-
-.full-width {
-  grid-column: span 2;
-}
-
-.membres-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.membre-tag {
-  padding: 0.2rem 0.8rem;
-  background: rgba(139, 92, 246, 0.2);
-  border-radius: 50px;
-  font-size: 0.75rem;
+.sorties-page :deep(.fc-event-custom small) {
+  font-size: 0.65rem;
+  opacity: 0.9;
 }
 
 @media (max-width: 768px) {
-  .sortie-card {
+  .sorties-page :deep(.fc-toolbar) {
     flex-direction: column;
-    text-align: center;
+    gap: 1rem;
   }
   
-  .sortie-info p i {
-    width: auto;
-    margin-right: 8px;
+  .sorties-page :deep(.fc-toolbar-chunk) {
+    display: flex;
+    justify-content: center;
   }
   
-  .detail-grid {
-    grid-template-columns: 1fr;
+  .sorties-page :deep(.fc-event-custom strong) {
+    font-size: 0.7rem;
   }
   
-  .full-width {
-    grid-column: span 1;
+  .sorties-page :deep(.fc-event-custom small) {
+    display: none;
   }
 }
 </style>
+
 

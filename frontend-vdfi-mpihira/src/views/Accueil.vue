@@ -248,7 +248,4 @@ export default {
 }
 </script>
 
-<style>
-@import '../assets/css/views/accueil.css';
-</style>
 

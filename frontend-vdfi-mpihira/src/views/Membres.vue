@@ -137,7 +137,7 @@ export default {
           { id_membre: 12, nom: 'ANDRIANTSIMANIRY', prenom: 'Iaritiana Famenontsoa', role: '3eme voix', categorie: 'chanteur', photo_path: '/photos/Famenontsoa.jpg' },
           { id_membre: 13, nom: 'RAKOTOMALALA', prenom: 'Fifaliana Mamilalaina', role: '3eme voix', categorie: 'chanteur', photo_path: '/photos/Fifaliana.jpg' },
           { id_membre: 14, nom: 'VAHATRINIAINA', prenom: 'Tiavo', role: '3eme voix', categorie: 'chanteur', photo_path: '/photos/Tiavo.jpg' },
-          { id_membre: 15, nom: 'RALAIKOA', prenom: 'Falinirina Raphael Joseph', role: 'Clavieriste', categorie: 'musicien', photo_path: '/photos/Raphael.jpg' },
+          { id_membre: 15, nom: 'RALAIKOA', prenom: 'Falinirina Raphael Joseph', role: 'Clavieriste', categorie: 'musicien', photo_path: '/photos/Raphael.png' },
           { id_membre: 16, nom: 'NOMENJANAHARY', prenom: 'Sitrakiniaina Erick', role: 'Clavieriste', categorie: 'musicien', photo_path: '/photos/Erick.jpg' },
           { id_membre: 17, nom: 'RAZANADRAKOTO', prenom: 'Nirintsoa Heriniaina', role: 'Guitariste', categorie: 'musicien', photo_path: '/photos/Aina.jpg' },
           { id_membre: 18, nom: 'LALAINAHARIJAONA', prenom: 'Anjara Toavina', role: 'Bassiste', categorie: 'musicien', photo_path: '/photos/Toavina.jpg' },
@@ -178,9 +178,6 @@ export default {
 }
 </script>
 
-<style scoped>
-@import '../assets/css/views/membres.css';
-</style>
 
 
 

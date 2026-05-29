@@ -4,6 +4,9 @@ front :
     - npm run dev
     - npm run vue-router
     - npm run axios
+    [ - npm install -D sass sass-loader
+    - npm install -g sass ]
+    - npm install @fullcalendar/vue3 @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
 
 back : 
     - mvn spring-boot:run
